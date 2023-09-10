@@ -1,15 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { toggleMenu } from '../utils/Appslice'
+import { YOUTUBE_SEARCH_API } from '../utils/Contants';
 
 const Header = () => {
+  const [searchQuery,setSearchQuery]=useState("");
+  const [suggestions,setSuggestions]=useState([]);
+  const [showSuggestions,setShowSuggestions]=useState(false);
+  useEffect(()=>{
+     
+     const timer=setTimeout(()=>getSearchSuggestion(),200);
+     return()=>{
+      clearTimeout(timer);
+     };
+  },[searchQuery]);
+  const getSearchSuggestion=async()=>{
+    const data=await fetch(YOUTUBE_SEARCH_API+searchQuery);
+    const json=await data.json();
+    //console.log(json[1]);
+    setSuggestions(json[1]);
+  }
   const dispatch=useDispatch()
   const clickHandler=()=>{
     dispatch(toggleMenu());
 
   };
   return (
-    <div className="grid grid-flow-col p-5 m-2 shadow-lg">
+    <div className="grid grid-flow-col p-5 m-2 shadow-lg ">
       <div className="flex col-span-1">
         <img 
          className="h-8 mx-2 cursor-pointer"
@@ -22,9 +39,23 @@ const Header = () => {
          src="https://lh3.googleusercontent.com/3zkP2SYe7yYoKKe47bsNe44yTgb4Ukh__rBbwXwgkjNRe4PykGG409ozBxzxkrubV7zHKjfxq6y9ShogWtMBMPyB3jiNps91LoNH8A=s500"
         />
       </div>
-      <div className="col-span-10 text-center">
-        <input className="w-1/2 border border-gray-400 p-1 rounded-l-full" type="text"/>
+      <div className="col-span-10 ">
+        <div>
+        <input 
+         onFocus={()=>setShowSuggestions(true)}
+         onBlur={()=>setShowSuggestions(false)}
+         value={searchQuery} 
+         onChange={(e)=> setSearchQuery(e.target.value)} 
+         className="w-1/2  border border-gray-400 p-1 rounded-l-full" 
+         type="text"/>
         <button className='border border-gray-400 p-1 rounded-r-full'>search</button>
+        </div>
+        {showSuggestions &&(
+        <div className="fixed bg-white py-2 px-10 w-[35rem] shadow-lg rounded-lg-border border-gray-100">
+          <ul>
+            {suggestions.map((s)=><li key={s} className="py-2 px-5 shadow-sm hover:bg-gray-100">{s}</li>)}
+          </ul>
+        </div>)}
       </div>
       <div className="col-span-1">
         <img
