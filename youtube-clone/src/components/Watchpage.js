@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { closeMenu } from '../utils/Appslice';
 import { useSearchParams } from 'react-router-dom';
+import CommentsContainer from './CommentsContainer';
 
 const Watchpage = () => {
   const [searchParams]=useSearchParams();
@@ -11,6 +12,7 @@ const Watchpage = () => {
      dispatch(closeMenu());
   },[])
   return (
+  <div className="flex flex-col">
     <div className="px-3">
       <iframe 
        width="800" height="400" 
@@ -22,6 +24,8 @@ const Watchpage = () => {
 
       </iframe>
     </div>
+    <CommentsContainer/>
+   </div> 
   )
 }
 
