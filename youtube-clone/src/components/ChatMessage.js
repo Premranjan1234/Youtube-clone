@@ -1,14 +1,8 @@
-import React,{useEffect} from 'react'
+import React from 'react'
+
 
 
 const ChatMessage = ({name,message}) => {
-    useEffect(()=>{
-        const i=setInterval(()=>{
-           console.log("API POLLING")
-        },2000)
-
-        return()=>clearInterval(i)
-    })
   return (
     <div className="flex text-center shadow-sm">
         <img
