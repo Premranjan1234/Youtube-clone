@@ -67,7 +67,7 @@ const commentData=[
 const Comments=({data})=>{
     const {name,text,replies}=data;
     return(
-     <div className="flex mx-2 my-2 px-2 bg-gray-100">
+     <div className="flex mx-2 my-2 px-2 py-1 bg-gray-200 rounded-md ">
       <img 
       className="w-8 h-8"
       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtRs_rWILOMx5-v3aXwJu7LWUhnPceiKvvDg&usqp=CAU" 
@@ -84,7 +84,7 @@ const Comments=({data})=>{
 const CommentList=({comments})=>{
     return comments.map((comment,index)=>{
     return(
-    <div>
+    <div className=' w-[100%]'>
     <Comments key={index} data={comment}/>
     <div className='pl-5 border-l-black '>
       <Comments key={index} data={comment}/>   

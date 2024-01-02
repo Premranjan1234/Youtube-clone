@@ -6,6 +6,7 @@ import store from '../utils/Store'
 import { generateRandomName, genrateRandomString } from '../utils/Helper'
 
 const LiveChat = () => {
+  const [showchat,setshowchat]=useState(true);
   const [typeChat,setTypeChat]=useState('');
   const dispatch=useDispatch()
   const chatMessage=useSelector((store)=>store.chat.messages);
@@ -21,9 +22,13 @@ const LiveChat = () => {
 
         return()=>clearInterval(i);
     },[]);
+    const handleChat=()=>{
+      showchat?setshowchat(false):setshowchat(true)
+    }
   return (
     <>
-    <div className='flex p-2 ml-2 border border-black h-[400px] bg-slate-100 rounded-lg overflow-y-scroll flex-col-reverse'>
+    { showchat &&<>
+    <div className='flex p-2 ml-2 border border-black h-[300px] bg-slate-100 rounded-lg overflow-y-scroll flex-col-reverse'>
         {chatMessage.map((c,index)=>(
         <ChatMessage key={index} name={c.name} message={c.message}/>
         ))}
@@ -36,10 +41,11 @@ const LiveChat = () => {
       }))
       setTypeChat('');
     }} 
-      className='ml-2 p-2 w-full border border-black'>
-      <input className='w-96 px-2' type="text" value={typeChat} onChange={(e)=>setTypeChat(e.target.value)}/>
-       <button className='bg-green-100 mx-2 '>send</button>
-    </form>
+      className='ml-2 p-2 rounded-md w-full border border-black'>
+      <input className='w-96 px-2 bg-slate-400 rounded-md py-2 border-black' type="text" value={typeChat} onChange={(e)=>setTypeChat(e.target.value)}/>
+       <button className='bg-black text-white mx-2 px-4 py-2 rounded-md  '>send</button>
+    </form></>}
+    <button onClick={handleChat} className=" w-full bg-slate-300 py-2 my-2 mx-2 rounded-lg text-black">{showchat?'hideChat': 'showChat'}</button>
     </>
   )
 }

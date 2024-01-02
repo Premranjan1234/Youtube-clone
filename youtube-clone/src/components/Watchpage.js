@@ -4,6 +4,7 @@ import { closeMenu } from '../utils/Appslice';
 import { useSearchParams } from 'react-router-dom';
 import CommentsContainer from './CommentsContainer';
 import LiveChat from './LiveChat';
+import WatchpageVideoContainer from './WatchpageVideoContainer';
 
 const Watchpage = () => {
   const [searchParams]=useSearchParams();
@@ -25,14 +26,16 @@ const Watchpage = () => {
        allowFullScreen>
 
       </iframe>
+      <CommentsContainer/>
       </div>
       
     
     <div className="w-full">
         <LiveChat/>
+        <WatchpageVideoContainer/>
     </div>
     </div>
-    <CommentsContainer/>
+    {/*<CommentsContainer/>*/}
    </div> 
   )
 }

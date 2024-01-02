@@ -27,6 +27,7 @@ const Header = () => {
       clearTimeout(timer);
      };
   },[searchQuery]);
+  
   const getSearchSuggestion=async()=>{
     const data=await fetch(YOUTUBE_SEARCH_API+searchQuery);
     const json=await data.json();
@@ -43,7 +44,7 @@ const Header = () => {
 
   };
   return (
-    <div className="grid grid-flow-col p-5 m-2 shadow-lg ">
+    <div className="fixed w-full grid grid-flow-col p-5 m-2 shadow-lg ">
       <div className="flex col-span-1">
         <img 
          className="h-8 mx-2 cursor-pointer"
@@ -63,18 +64,23 @@ const Header = () => {
          onBlur={()=>setShowSuggestions(false)}
          value={searchQuery} 
          onChange={(e)=> setSearchQuery(e.target.value)} 
-         className="w-1/2  border border-gray-400 p-1 rounded-l-full" 
+         className="w-1/2  border border-gray-400 px-5 py-1 rounded-l-full" 
          type="text"/>
-        <button className='border border-gray-400 p-1 rounded-r-full'>search</button>
+        <button className='border border-gray-400 p-1 rounded-r-full'>
+          search
+        </button>
         </div>
         {showSuggestions &&(
-        <div className="fixed bg-white py-2 px-10 w-[35rem] shadow-lg rounded-lg-border border-gray-100">
+        <div className="fixed bg-white py-2 px-2 w-[35rem] shadow-lg  rounded-lg border border-gray-100">
           <ul>
-            {suggestions.map((s)=><li key={s} className="py-2 px-5 shadow-sm hover:bg-gray-100">{s}</li>)}
+            {suggestions.map((s)=><li key={s} className="py-2 px-3 shadow-sm hover:bg-gray-100">{s}</li>)}
           </ul>
         </div>)}
       </div>
-      <div className="col-span-1">
+      <div className="col-span-1 flex ">
+      <img src="https://img.icons8.com/?size=30&id=H3mmKEsuafpa&format=png" alt="dark-mode"/>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCj-ZQ6Ezbp6QlHXrMXsnz2KG-gc-ZR0FgRw&usqp=CAU"
+        alt="bell-icon" className='h-8 px-5'/>
         <img
         className="h-8" 
         alt="image-logo" 
