@@ -10,6 +10,7 @@ const LiveChat = () => {
   const [typeChat,setTypeChat]=useState('');
   const dispatch=useDispatch()
   const chatMessage=useSelector((store)=>store.chat.messages);
+  const darkMode=useSelector((store)=>store.app.darkMode)
     useEffect(()=>{
         const i=setInterval(()=>{
            
@@ -28,7 +29,7 @@ const LiveChat = () => {
   return (
     <>
     { showchat &&<>
-    <div className='flex p-2 ml-2 border border-black h-[300px] bg-slate-100 rounded-lg overflow-y-scroll flex-col-reverse'>
+    <div className={`flex p-2 ml-2 border border-black h-[300px] ${darkMode?"bg-slate-500":"bg-slate-100"}  rounded-lg overflow-y-scroll flex-col-reverse`}>
         {chatMessage.map((c,index)=>(
         <ChatMessage key={index} name={c.name} message={c.message}/>
         ))}

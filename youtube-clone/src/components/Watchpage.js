@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { closeMenu } from '../utils/Appslice';
 import { useSearchParams } from 'react-router-dom';
 import CommentsContainer from './CommentsContainer';
@@ -13,9 +13,10 @@ const Watchpage = () => {
   useEffect(()=>{
      dispatch(closeMenu());
   },[])
+  const darkMode=useSelector((store)=>store.app.darkMode)
   return (
-  <div className="flex flex-col w-full">
-    <div className="px-3 flex">
+  <div className={"flex flex-col w-full "}>
+    <div className={`px-3 flex ${darkMode?" bg-slate-500":"bg-white"}`}>
       <div>
       <iframe 
        width="800" height="400" 

@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
   const isMenuOpen=useSelector((store)=>store.app.isMenuOpen)
+  const darkMode=useSelector((store)=>store.app.darkMode)
   //Early return
   if(!isMenuOpen) return null;
   return (
-    <div className="p-5 shadow-lg w-48">
+    <div className={`p-5 shadow-lg w-48 ${darkMode?"bg-slate-500":"bg-white"}`}>
       <ul>
-        <li className='py-2 flex'>
+        <li className=' py-2 flex'>
         <img className=' pr-4' src="https://img.icons8.com/?size=20&id=2797&format=png"
            alt="home-icon"/>
         <Link to="/">

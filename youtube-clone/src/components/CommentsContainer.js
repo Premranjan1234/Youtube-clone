@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 
 const commentData=[
 {
@@ -66,8 +67,9 @@ const commentData=[
 ]
 const Comments=({data})=>{
     const {name,text,replies}=data;
+    const darkMode=useSelector((store)=>store.app.darkMode)
     return(
-     <div className="flex mx-2 my-2 px-2 py-1 bg-gray-200 rounded-md ">
+     <div className={`flex mx-2 my-2 px-2 py-1 ${darkMode?"bg-slate-500":"bg-gray-200"} bg-gray-200 rounded-md `}>
       <img 
       className="w-8 h-8"
       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtRs_rWILOMx5-v3aXwJu7LWUhnPceiKvvDg&usqp=CAU" 

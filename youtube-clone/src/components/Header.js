@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { toggleMenu } from '../utils/Appslice'
+import { toggleMenu,toggleDarkMode } from '../utils/Appslice'
 import { YOUTUBE_SEARCH_API } from '../utils/Contants';
 import store from '../utils/Store';
 import { cacheResults } from '../utils/searchSlice';
+
 
 const Header = () => {
   const [searchQuery,setSearchQuery]=useState("");
   const [suggestions,setSuggestions]=useState([]);
   const [showSuggestions,setShowSuggestions]=useState(false);
+  const darkMode=useSelector((store)=>store.app.darkMode)
   const searchCache=useSelector((store)=>store.search);
   useEffect(()=>{
      
@@ -28,6 +30,8 @@ const Header = () => {
      };
   },[searchQuery]);
   
+  
+  
   const getSearchSuggestion=async()=>{
     const data=await fetch(YOUTUBE_SEARCH_API+searchQuery);
     const json=await data.json();
@@ -41,11 +45,14 @@ const Header = () => {
   const dispatch=useDispatch()
   const clickHandler=()=>{
     dispatch(toggleMenu());
-
   };
+  const handleDarkMode=()=>{
+     dispatch(toggleDarkMode());
+  }
   return (
-    <div className="fixed w-full grid grid-flow-col p-5 m-2 shadow-lg ">
+    <div className={` fixed w-full ${darkMode?"bg-slate-500": "bg-white"} grid grid-flow-col p-5 m-2 mt-0 ml-0 shadow-lg`}>
       <div className="flex col-span-1">
+        
         <img 
          className="h-8 mx-2 cursor-pointer"
          onClick={()=>clickHandler()} 
@@ -54,7 +61,7 @@ const Header = () => {
         <img 
          className="h-10"
          alt="logo" 
-         src="https://lh3.googleusercontent.com/3zkP2SYe7yYoKKe47bsNe44yTgb4Ukh__rBbwXwgkjNRe4PykGG409ozBxzxkrubV7zHKjfxq6y9ShogWtMBMPyB3jiNps91LoNH8A=s500"
+         src="https://img.icons8.com/?size=48&id=13983&format=png"
         />
       </div>
       <div className="col-span-10 ">
@@ -64,28 +71,28 @@ const Header = () => {
          onBlur={()=>setShowSuggestions(false)}
          value={searchQuery} 
          onChange={(e)=> setSearchQuery(e.target.value)} 
-         className="w-1/2  border border-gray-400 px-5 py-1 rounded-l-full" 
+         className={`w-1/2 ${darkMode?" bg-slate-500":"bg-white"} border border-gray-400 px-5 py-1 rounded-l-full`}
          type="text"/>
         <button className='border border-gray-400 p-1 rounded-r-full'>
           search
         </button>
         </div>
         {showSuggestions &&(
-        <div className="fixed bg-white py-2 px-2 w-[35rem] shadow-lg  rounded-lg border border-gray-100">
+        <div className={`fixed ${darkMode?"bg-slate-500":"bg-white"}  py-2 px-2 w-[35rem] shadow-lg  rounded-lg border border-gray-100`}>
           <ul>
             {suggestions.map((s)=><li key={s} className="py-2 px-3 shadow-sm hover:bg-gray-100">{s}</li>)}
           </ul>
         </div>)}
       </div>
       <div className="col-span-1 flex ">
-      <img src="https://img.icons8.com/?size=30&id=H3mmKEsuafpa&format=png" alt="dark-mode"/>
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCj-ZQ6Ezbp6QlHXrMXsnz2KG-gc-ZR0FgRw&usqp=CAU"
-        alt="bell-icon" className='h-8 px-5'/>
-        <img
+      <img onClick={handleDarkMode} className=" h-8" src="https://img.icons8.com/?size=20&id=H3mmKEsuafpa&format=png" alt="dark-mode"/>
+      <img src="https://img.icons8.com/?size=20&id=32058&format=png"
+        alt="bell-icon" className='h-8 px-5 '/>
+      <img
         className="h-8" 
         alt="image-logo" 
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtRs_rWILOMx5-v3aXwJu7LWUhnPceiKvvDg&usqp=CAU"
-        />
+        src="https://img.icons8.com/?size=24&id=ABBSjQJK83zf&format=png"
+      />
       </div>
 
 

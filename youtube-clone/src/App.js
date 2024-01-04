@@ -2,7 +2,7 @@
 import './App.css';
 import Body from './components/Body';
 import Header from './components/Header';
-import { Provider } from 'react-redux';
+import { Provider} from 'react-redux';
 import store from './utils/Store';
 import {RouterProvider, createBrowserRouter} from 'react-router-dom';
 import MainContainer from './components/MainContainer';
@@ -25,9 +25,10 @@ const appRouter=createBrowserRouter([{
 }])
 
 function App() {
+  
   return (
     <Provider store={store}>
-    <div>
+     <div>
       
       <Header/>
       <RouterProvider router={appRouter}/>

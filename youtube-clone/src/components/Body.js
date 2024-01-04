@@ -3,9 +3,11 @@ import Sidebar from './Sidebar'
 //import MainContainer from './MainContainer'
 import { Outlet } from 'react-router-dom'
 
+
 const Body = () => {
+  
   return (
-    <div className="flex pt-[90px] ">
+    <div className={`flex pt-[80px]  `}>
         <Sidebar/>
         <Outlet/>
     </div>
