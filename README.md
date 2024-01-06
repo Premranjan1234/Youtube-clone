@@ -1,1 +1,1 @@
-Link:https://65996f047241e3e1ae626f3f--bright-valkyrie-6450e4.netlify.app/
+Link:https://659978b6f50dbfa58403c213--tranquil-syrniki-86611d.netlify.app/
