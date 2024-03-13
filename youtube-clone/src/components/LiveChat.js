@@ -27,9 +27,9 @@ const LiveChat = () => {
       showchat?setshowchat(false):setshowchat(true)
     }
   return (
-    <>
+    <div>
     { showchat &&<>
-    <div className={`flex p-2 ml-2 border border-black h-[300px] ${darkMode?"bg-slate-500":"bg-slate-100"}  rounded-lg overflow-y-scroll flex-col-reverse`}>
+    <div className={`flex w-full p-2 ml-2  border border-black h-[300px] ${darkMode?"bg-slate-500":"bg-slate-100"}  rounded-lg overflow-y-scroll flex-col-reverse`}>
         {chatMessage.map((c,index)=>(
         <ChatMessage key={index} name={c.name} message={c.message}/>
         ))}
@@ -42,12 +42,12 @@ const LiveChat = () => {
       }))
       setTypeChat('');
     }} 
-      className='ml-2 p-2 rounded-md w-full border border-black'>
-      <input className='w-96 px-2 bg-slate-400 rounded-md py-2 border-black' type="text" value={typeChat} onChange={(e)=>setTypeChat(e.target.value)}/>
-       <button className='bg-black text-white mx-2 px-4 py-2 rounded-md  '>send</button>
+      className='flex ml-2 p-2 rounded-md w-full border border-black'>
+      <input className='w-25 md:w-96 px-2 bg-slate-400 rounded-md py-2 border-black' type="text" value={typeChat} onChange={(e)=>setTypeChat(e.target.value)}/>
+       <button className='bg-black text-white my-2 md:my-0 mx-2 px-4 py-2 rounded-md  '>send</button>
     </form></>}
     <button onClick={handleChat} className=" w-full bg-slate-300 py-2 my-2 mx-2 rounded-lg text-black">{showchat?'hideChat': 'showChat'}</button>
-    </>
+    </div>
   )
 }
 

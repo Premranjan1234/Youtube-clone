@@ -5,6 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 import CommentsContainer from './CommentsContainer';
 import LiveChat from './LiveChat';
 import WatchpageVideoContainer from './WatchpageVideoContainer';
+import VideoResults from './VideoResults';
 
 const Watchpage = () => {
   const [searchParams]=useSearchParams();
@@ -14,12 +15,17 @@ const Watchpage = () => {
      dispatch(closeMenu());
   },[])
   const darkMode=useSelector((store)=>store.app.darkMode)
+  const resultpage=useSelector((store)=>store.app.results)
+  
   return (
-  <div className={"flex flex-col w-full "}>
-    <div className={`px-3 flex ${darkMode?" bg-slate-500":"bg-white"}`}>
-      <div>
+    <>
+    {resultpage?<VideoResults/>:
+    <div className={`flex flex-col  sm:w-screen md:w-screen lg:w-full xl:w-full ${darkMode?" bg-slate-500":"bg-white"}` }>
+    <div className={`px-2 md:px-4  md:flex sm:flex-col md:flex-row   ${darkMode?" bg-slate-500":"bg-white"}`}>
+      <div className={`w-full ${darkMode?" bg-slate-500":"bg-white"}`}>
       <iframe 
        width="800" height="400" 
+       className='w-screen md:w-[800px] h-[400px] md:h-[400px] '
        src={"https://www.youtube.com/embed/"+searchParams.get("v") }
        title="YouTube video player" 
        frameBorder="0" 
@@ -31,13 +37,16 @@ const Watchpage = () => {
       </div>
       
     
-    <div className="w-full">
+    <div className={`w-full ${darkMode?" bg-slate-500":"bg-white"}`}>
         <LiveChat/>
         <WatchpageVideoContainer/>
     </div>
     </div>
-    {/*<CommentsContainer/>*/}
-   </div> 
+    </div>
+    }
+    </>
+    
+   
   )
 }
 

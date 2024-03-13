@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { toggleMenu,toggleDarkMode } from '../utils/Appslice'
+import { toggleMenu,toggleDarkMode, setResults, openMenu } from '../utils/Appslice'
 import { YOUTUBE_SEARCH_API } from '../utils/Contants';
-import store from '../utils/Store';
+//import store from '../utils/Store';
 import { cacheResults } from '../utils/searchSlice';
+import { YOUTUBE_FETCH_APIONE,YOUTUBE_FETCH_APITWO } from '../utils/Contants';
+import { Link } from 'react-router-dom';
+import { setFetchedVideos } from '../utils/fetchSlice';
+
 
 
 const Header = () => {
@@ -12,6 +16,7 @@ const Header = () => {
   const [showSuggestions,setShowSuggestions]=useState(false);
   const darkMode=useSelector((store)=>store.app.darkMode)
   const searchCache=useSelector((store)=>store.search);
+  
   useEffect(()=>{
      
      const timer=setTimeout(()=>{
@@ -35,13 +40,22 @@ const Header = () => {
   const getSearchSuggestion=async()=>{
     const data=await fetch(YOUTUBE_SEARCH_API+searchQuery);
     const json=await data.json();
-    //console.log(json[1]);
     setSuggestions(json[1]);
     dispatch(cacheResults({
       [searchQuery]:json[1],
     })
     );
   };
+  const fetchSearchVideos=async(s)=>{
+    setShowSuggestions(false);
+    let query=encodeURIComponent(s);
+    const data=await fetch(`${YOUTUBE_FETCH_APIONE}${query}${YOUTUBE_FETCH_APITWO}`);
+    const json=await data.json();
+    dispatch(setFetchedVideos(json.items));
+    dispatch(setResults(true));
+    dispatch(openMenu());
+
+}
   const dispatch=useDispatch()
   const clickHandler=()=>{
     dispatch(toggleMenu());
@@ -50,7 +64,7 @@ const Header = () => {
      dispatch(toggleDarkMode());
   }
   return (
-    <div className={` fixed w-full ${darkMode?"bg-slate-500": "bg-white"} grid grid-flow-col p-5 m-2 mt-0 ml-0 shadow-lg`}>
+    <div className={` fixed w-full ${darkMode?"bg-slate-500": "bg-white"} grid grid-flow-col p-5 m-2 mt-0 ml-0 mr-0 shadow-lg`}>
       <div className="flex col-span-1">
         
         <img 
@@ -59,7 +73,7 @@ const Header = () => {
          alt="menu"
          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAYFBMVEX///8CAgIAAADb29vDw8OxsbHt7e3y8vK4uLiampo7OztmZmaAgIC8vLzT09NhYWEcHBxxcXHi4uITExOioqJXV1eHh4dMTEx7e3uQkJAnJyc1NTX5+fnW1tbJyclAQEBzZbpGAAABTUlEQVR4nO3cC1LCQAwG4LK8lYcioCLi/W9pGa9gkyH9vgt0/tmhGzbNdh0AAAAAAAAAAAAAAAAAAABEW0yHtkzNt9u/tKFdXg95AdeDx/uzygo4b20SobVdTsBlUMA+4ltOwmNUwH4RZykJT2EJJ+2ckvApMOFzSsL3wIQfKQk/AxPOUxJO496lLamw2YTth8ecgF23bwEZ+2dssgL2W+IloGb7Siva7q671XxY2+/MfAAAAAAPY3GbDeuW2wOe/QSctZ2Suod35xZzXpp2ILwOO/Pe5gQ8BPaArykJ14E94JxFjOwf5nQu9ID/M2HOGtb/HdZ/l9bfD0dQ04ygLu3q/7cAAAAAeBDlv9UvP29Rfmam/NxT/dm1+vOH9WdI6/eA689y15/Hr3+nQv17MUZwt8kI7qfp6t8xBAAAAAAAAAAAAAAAAAAAwDj9AgjsI6cJ8n2yAAAAAElFTkSuQmCC"/>
         <img 
-         className="h-10"
+         className="h-10 hidden md:block"
          alt="logo" 
          src="https://img.icons8.com/?size=48&id=13983&format=png"
         />
@@ -68,7 +82,7 @@ const Header = () => {
         <div>
         <input 
          onFocus={()=>setShowSuggestions(true)}
-         onBlur={()=>setShowSuggestions(false)}
+         onBlur={()=>setShowSuggestions(true)}
          value={searchQuery} 
          onChange={(e)=> setSearchQuery(e.target.value)} 
          className={`w-1/2 ${darkMode?" bg-slate-500":"bg-white"} border border-gray-400 px-5 py-1 rounded-l-full`}
@@ -77,19 +91,26 @@ const Header = () => {
           search
         </button>
         </div>
+        
         {showSuggestions &&(
-        <div className={`fixed ${darkMode?"bg-slate-500":"bg-white"}  py-2 px-2 w-[35rem] shadow-lg  rounded-lg border border-gray-100`}>
+          
+        <div className={`fixed ${darkMode?"bg-slate-500":"bg-white"}  py-2 px-2 w-[20rem] md:w-[35rem] shadow-lg  rounded-lg border border-gray-100`}>
           <ul>
-            {suggestions.map((s)=><li key={s} className="py-2 px-3 shadow-sm hover:bg-gray-100">{s}</li>)}
+            {suggestions.map((suggestion)=>
+            (<li onClick={() => fetchSearchVideos(suggestion)}  key={suggestion}  className="py-2 px-3 shadow-sm hover:cursor-pointer ">
+             {suggestion}
+             </li>
+            ))}
           </ul>
         </div>)}
       </div>
-      <div className="col-span-1 flex ">
-      <img onClick={handleDarkMode} className=" h-8" src="https://img.icons8.com/?size=20&id=H3mmKEsuafpa&format=png" alt="dark-mode"/>
+      
+      <div className="col-span-1 flex  ">
+      <img onClick={handleDarkMode} className=" h-8 hover:cursor-pointer" src="https://img.icons8.com/?size=20&id=H3mmKEsuafpa&format=png" alt="dark-mode"/>
       <img src="https://img.icons8.com/?size=20&id=32058&format=png"
-        alt="bell-icon" className='h-8 px-5 '/>
+        alt="bell-icon" className=' h-8 px-5 hidden md:block '/>
       <img
-        className="h-8" 
+        className="h-8 hidden md:block  " 
         alt="image-logo" 
         src="https://img.icons8.com/?size=24&id=ABBSjQJK83zf&format=png"
       />
