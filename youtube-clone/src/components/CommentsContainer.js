@@ -71,7 +71,7 @@ const Comments=({data})=>{
     return(
      <div className={`flex mx-2 my-2 px-2 py-1 ${darkMode?"bg-slate-400":"bg-gray-200"} bg-gray-200 rounded-md `}>
       <img 
-      className="w-8 h-8"
+      className="w-8 h-8 rounded-full"
       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtRs_rWILOMx5-v3aXwJu7LWUhnPceiKvvDg&usqp=CAU" 
       alt="userlogo"
       />

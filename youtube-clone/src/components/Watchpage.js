@@ -25,7 +25,7 @@ const Watchpage = () => {
       <div className={`w-full ${darkMode?" bg-slate-500":"bg-white"}`}>
       <iframe 
        width="800" height="400" 
-       className='w-screen md:w-[800px] h-[400px] md:h-[400px] '
+       className='w-screen md:mt-2 md:w-[800px] h-[400px] md:h-[400px] '
        src={"https://www.youtube.com/embed/"+searchParams.get("v") }
        title="YouTube video player" 
        frameBorder="0" 
