@@ -1,6 +1,6 @@
 ## Project Links
 
-- [Project Link]([https://cosmic-peony-ad9816.netlify.app/): Access the deployed web application.
+- [Project Link](https://cosmic-peony-ad9816.netlify.app/): Access the deployed web application.
 
 # YouTube Watcher
 
